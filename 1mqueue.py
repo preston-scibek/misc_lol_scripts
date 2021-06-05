@@ -37,6 +37,7 @@ def one_minute_queue():
     stop_queue_curl = stop_queue_curl.format(token, host)
 
     # execute the core loop
+    # lol this key doesn't exist but who cares cuz at this point the program should stop anyways
     while(json.loads(os.popen(champ_select_check).read())['httpStatus'] == 404):
             # start queue
             os.system(start_queue_curl)
