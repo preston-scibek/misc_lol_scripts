@@ -48,6 +48,8 @@ def call_endpoint(endpoint, method, *args, **kwargs):
             res = requests.put(full_url, headers=headers, data=json.dumps(data), verify=False)
         elif method == 'PATCH':
             res = requests.patch(full_url, headers=headers, data=json.dumps(data), verify=False)
+        elif method == 'GET':
+            res = requests.get(full_url, headers=headers, data=json.dumps(data), verify=False)
     else:
         if method == 'GET':
             res = requests.get(full_url, headers=headers, verify=False)
