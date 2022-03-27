@@ -33,7 +33,7 @@ def get_windows_host():
     return str(process.stdout.decode('utf-8').strip())
 
 
-def get_credentials():
+def get_credentials(port=None):
     """Retreive the current client credentials from the lock file"""
     # read from lockfile
     # replace this with your league install
@@ -43,7 +43,7 @@ def get_credentials():
     
     with open(lockfile_location, "r") as lockfile:
         lockfile_array = lockfile.read().split(":")
-        port = lockfile_array[2]
+        port = lockfile_array[2] if port is None else port
         token = lockfile_array[3]
 
     host = f"{get_windows_host() if in_wsl() else '127.0.0.1'}:{port}"
@@ -56,7 +56,7 @@ def get_credentials():
 
 def call_endpoint(endpoint, method, *args, **kwargs):
     """Call the specified LCU endpoint via the given method , substituting in *args as needed"""
-    host, token = get_credentials()
+    host, token = get_credentials(port=None if "liveclientdata" not in endpoint else "2999")
 
     formatted_endpoint = endpoint.format(*args)
    
@@ -88,8 +88,8 @@ def call_endpoint(endpoint, method, *args, **kwargs):
         elif method == 'PATCH':
             res = requests.patch(full_url, headers=headers, verify=False)
     try:
-        print(res.json())
+        #print(res.json())
         return res.json()
     except ValueError:
-        print(res.text)
+        print("Error:", res.text)
         return res
