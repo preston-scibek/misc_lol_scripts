@@ -3,6 +3,8 @@ import json
 from helper_functions import call_endpoint
 
 def my_shop_i_think():
+    my_id_res = call_endpoint("/lol-chat/v1/me", "GET")
+    my_id = my_id_res['summonerId']
     res = call_endpoint("/lol-tastes/v1/skins-model", "GET")
 
     res['modelData']['payload'] = sorted(res['modelData']['payload'], key=lambda champ: champ['prob'], reverse=True)
@@ -19,9 +21,11 @@ def my_shop_i_think():
 
     print("Your top champs are:")
     for champ in top_champs:
-    	print("{} at {}%".format(champ['championName'], champ['prob'] * 100))
-
-
+        try:
+            print("{} at {}%".format(champ['championName'], champ['prob'] * 100))
+        except KeyError:
+            res = call_endpoint(f"/lol-champions/v1/inventories/{my_id}/champions/{champ['championId']}", "GET")
+            print(f"{res['alias']} at {champ['prob'] * 100}%")
     return res
 
 

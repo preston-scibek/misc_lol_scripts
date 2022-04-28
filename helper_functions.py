@@ -66,7 +66,7 @@ def call_endpoint(endpoint, method, *args, **kwargs):
 
     data = kwargs.get('data', None)
     full_url = "https://{}{}".format(host, formatted_endpoint)
-    print(f"calling {full_url}")
+    #print(f"calling {full_url}")
     if data:
         if method == 'POST':
             res = requests.post(full_url, headers=headers, data=json.dumps(data), verify=False)
