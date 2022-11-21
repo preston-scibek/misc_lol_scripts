@@ -1,12 +1,13 @@
 import requests
+api_key = ""
 s = "aZ4dUkCl7W0Grr7cgNFEaI2P3sn6ETwkYnNlH5VKqv9iYZmijlEBVoEN6iJi9U4nsK47x-VwpJweZg"
-url = "https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/aZ4dUkCl7W0Grr7cgNFEaI2P3sn6ETwkYnNlH5VKqv9iYZmijlEBVoEN6iJi9U4nsK47x-VwpJweZg/ids?start=0&count=20&api_key=RGAPI-f7f80493-1c6b-464f-a445-0354bb7248d9"
+url = f"https://americas.api.riotgames.com/lol/match/v5/matches/by-puuid/aZ4dUkCl7W0Grr7cgNFEaI2P3sn6ETwkYnNlH5VKqv9iYZmijlEBVoEN6iJi9U4nsK47x-VwpJweZg/ids?start=0&count=20&api_key={api_key}"
 
 match_ids = requests.get(url).json()
 busted = 0
 for match_id in match_ids:
     busted += 1
-    url2 = f"https://americas.api.riotgames.com/lol/match/v5/matches/{match_id}?api_key=RGAPI-f7f80493-1c6b-464f-a445-0354bb7248d9"
+    url2 = f"https://americas.api.riotgames.com/lol/match/v5/matches/{match_id}?api_key={api_key}"
     match = requests.get(url2).json()
     team1 = []
     team2 = []
